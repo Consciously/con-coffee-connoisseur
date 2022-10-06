@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Banner from '../components/Banner/Banner.component';
+import Card from '../components/Card/Card.component';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -22,8 +23,18 @@ export default function Home() {
 					handleOnClick={handleOnBannerBtnClick}
 				/>
 				<div className={styles.heroImage}>
-					<Image src='/static/hero-image.png' width={700} height={400} />
+					<Image
+						src='/static/hero-image.png'
+						width={700}
+						height={400}
+						alt='hero-image'
+					/>
 				</div>
+				<Card
+					name='DarkHorse Coffee'
+					imgUrl='/static/hero-image.png'
+					href='/coffee-store/darkhorse-coffee'
+				/>
 			</main>
 		</div>
 	);
