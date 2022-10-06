@@ -5,7 +5,7 @@ import coffeeStoresData from '../data/coffee-stores.json';
 import Card from '../components/Card/Card.component';
 import styles from '../styles/Home.module.css';
 
-export const getStaticProps = async context => {
+export const getStaticProps = async () => {
 	return {
 		props: {
 			coffeeStores: coffeeStoresData,
