@@ -1,6 +1,30 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import coffeeStoreData from '../../data/coffee-stores.json';
+
+export const getStaticProps = async ({ params }) => {
+	return {
+		props: {
+			coffeeStore: coffeeStoreData.find(store => store.id === params.id),
+		},
+	};
+};
+
+export const getStaticPaths = () => {
+	return {
+		paths: [
+			{
+				params: {
+					id: '0',
+				},
+				params: {
+					id: '1',
+				},
+			},
+		],
+	};
+};
 
 const CoffeeStore = () => {
 	const router = useRouter();

@@ -17,6 +17,24 @@
 	z-index: 1;
 }
 
+.cardLayout {
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+	gap: 1.5rem;
+}
+
+.card {
+	justify-content: center;
+}
+
+.heading2 {
+	font-size: 2.25rem;
+	line-height: 2.5rem;
+	padding-bottom: 2rem;
+	margin-top: 2rem;
+	color: var(--text-white-100);
+}
+
 @media (min-width: 640px) {
 	.container {
 		padding-left: 1rem /* 16px */;
@@ -27,6 +45,10 @@
 		margin-top: 3rem /* 48px */;
 		padding-left: 1.5rem /* 24px */;
 		padding-right: 1.5rem /* 24px */;
+	}
+
+	.cardLayout {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
@@ -43,6 +65,10 @@
 	.heroImage {
 		right: 20%;
 	}
+
+	.cardLayout {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 
 @media (min-width: 1024px) {
@@ -58,5 +84,29 @@
 
 	.heroImage {
 		right: 20%;
+	}
+
+	.cardLayout {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 1280px) {
+	.container {
+		padding-left: 2.5rem /* 40px */;
+		padding-right: 2.5rem /* 40px */;
+	}
+	.main {
+		margin-top: 5rem /* 80px */;
+		padding-left: 2rem /* 32px */;
+		padding-right: 2rem /* 32px */;
+	}
+
+	.heroImage {
+		right: 20%;
+	}
+
+	.cardLayout {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }

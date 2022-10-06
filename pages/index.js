@@ -1,10 +1,19 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Banner from '../components/Banner/Banner.component';
+import coffeeStoresData from '../data/coffee-stores.json';
 import Card from '../components/Card/Card.component';
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
+export const getStaticProps = async context => {
+	return {
+		props: {
+			coffeeStores: coffeeStoresData,
+		},
+	};
+};
+
+export default function Home({ coffeeStores }) {
 	const handleOnBannerBtnClick = () => {
 		console.log('Hi banner button');
 	};
@@ -30,11 +39,16 @@ export default function Home() {
 						alt='hero-image'
 					/>
 				</div>
-				<Card
-					name='DarkHorse Coffee'
-					imgUrl='/static/hero-image.png'
-					href='/coffee-store/darkhorse-coffee'
-				/>
+				{coffeeStores.length && (
+					<>
+						<h2 className={styles.heading2}>Toronto stores</h2>
+						<div className={styles.cardLayout}>
+							{coffeeStores.map(store => (
+								<Card key={store.id} store={store} />
+							))}
+						</div>
+					</>
+				)}
 			</main>
 		</div>
 	);
