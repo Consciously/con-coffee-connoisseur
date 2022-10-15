@@ -2,18 +2,22 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Banner from '../components/Banner/Banner.component';
 import coffeeStoresData from '../data/coffee-stores.json';
+import { fetchCoffeeStores } from '../lib/coffee-stores';
 import Card from '../components/Card/Card.component';
 import styles from '../styles/Home.module.css';
 
 export const getStaticProps = async () => {
+	const coffeeStores = await fetchCoffeeStores();
+
 	return {
 		props: {
-			coffeeStores: coffeeStoresData,
+			coffeeStores,
 		},
 	};
 };
 
 export default function Home({ coffeeStores }) {
+	console.log(coffeeStores);
 	const handleOnBannerBtnClick = () => {
 		console.log('Hi banner button');
 	};
@@ -44,7 +48,12 @@ export default function Home({ coffeeStores }) {
 						<h2 className={styles.heading2}>Toronto stores</h2>
 						<div className={styles.cardLayout}>
 							{coffeeStores.map(store => (
-								<Card key={store.id} store={store} />
+								<Card
+									key={store.fsq_id}
+									store={store}
+									href={`/coffee-store/${store.fsq_id}`}
+									className={styles.card}
+								/>
 							))}
 						</div>
 					</>

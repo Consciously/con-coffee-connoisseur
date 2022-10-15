@@ -35,7 +35,7 @@ const CoffeeStore = ({ coffeeStores }) => {
 		return <div>Loading...</div>;
 	}
 
-	const { address, name, neighbourhood, imgUrl } = coffeeStores;
+	const { address, name, imgUrl } = coffeeStores;
 
 	const handleUpvoteButton = () => {
 		console.log('handle upvote');
@@ -66,15 +66,30 @@ const CoffeeStore = ({ coffeeStores }) => {
 				</div>
 				<div className={cls('glass', styles.col2)}>
 					<div className={styles.iconWrapper}>
-						<Image src='/static/icons/places.svg' width='24' height='24' />
+						<Image
+							src='/static/icons/places.svg'
+							width='24'
+							height='24'
+							alt='places icon'
+						/>
 						<p className={styles.text}>{address}</p>
 					</div>
 					<div className={styles.iconWrapper}>
-						<Image src='/static/icons/nearMe.svg' width='24' height='24' />
+						<Image
+							src='/static/icons/nearMe.svg'
+							width='24'
+							height='24'
+							alt='near me icon'
+						/>
 						<p className={styles.text}>{neighbourhood}</p>
 					</div>
 					<div className={styles.iconWrapper}>
-						<Image src='/static/icons/star.svg' width='24' height='24' />
+						<Image
+							src='/static/icons/star.svg'
+							width='24'
+							height='24'
+							alt='rating icon'
+						/>
 						<p className={styles.text}>1</p>
 					</div>
 					<button className={styles.upvoteButton} onClick={handleUpvoteButton}>
