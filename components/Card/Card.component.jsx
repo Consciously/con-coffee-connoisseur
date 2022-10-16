@@ -5,10 +5,10 @@ import cls from 'classnames';
 import styles from './Card.module.css';
 
 const Card = ({ store }) => {
-	const { name, imgUrl, fsq_id } = store;
+	const { name, imgUrl, id } = store;
 
 	return (
-		<Link href={`/coffee-store/${fsq_id}`}>
+		<Link href={`/coffee-store/${id}`}>
 			<a className={styles.cardLink}>
 				<div className={cls('glass', styles.container)}>
 					<div className={styles.cardHeaderWrapper}>
