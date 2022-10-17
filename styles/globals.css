@@ -10,7 +10,6 @@ body {
 	font-family: 'IBM Plex Sans', sans-serif;
 	background: url('/static/background.png') 50% / cover no-repeat;
 	color: #373b64;
-	height: 100%;
 }
 
 a {

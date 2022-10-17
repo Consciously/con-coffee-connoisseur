@@ -22,6 +22,11 @@
 	font-weight: 700;
 }
 
+.backToHomeLink span:nth-child(1) {
+	font-weight: 700;
+	font-size: 1.125rem;
+}
+
 .nameWrapper {
 	margin-bottom: 1rem /* 16px */;
 	margin-top: 1rem /* 16px */;
