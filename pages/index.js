@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { ACTION_TYPES } from '../store/coffeeStore-types';
+import { CoffeeStoreContext } from '../store/coffeeStore-context';
 import Head from 'next/head';
 import Image from 'next/image';
 import useTrackLocation from '../hooks/use-track-location';
@@ -18,10 +20,12 @@ export const getStaticProps = async () => {
 };
 
 export default function Home(props) {
-	const [coffeeStores, setCoffeeStores] = useState([]);
+	const { dispatch, state } = useContext(CoffeeStoreContext);
+
+	const { coffeeStores, latLong } = state;
+	// const [coffeeStores, setCoffeeStores] = useState([]);
 	const [coffeeStoreError, setCoffeeStoreError] = useState(null);
 	const {
-		latLong,
 		locationErrorMsg,
 		setLocationErrorMsg,
 		isFindingLocation,
@@ -35,8 +39,13 @@ export default function Home(props) {
 					setIsFindingLocation(true);
 					setLocationErrorMsg('');
 					const coffeeStores = await fetchCoffeeStores(latLong, 30);
-					setCoffeeStores(coffeeStores);
-					console.log(coffeeStores);
+					// setCoffeeStores(coffeeStores);
+					dispatch({
+						type: ACTION_TYPES.SET_COFFEE_STORES,
+						payload: {
+							coffeeStores,
+						},
+					});
 					setIsFindingLocation(false);
 				} catch (error) {
 					setCoffeeStoreError(error.message);
