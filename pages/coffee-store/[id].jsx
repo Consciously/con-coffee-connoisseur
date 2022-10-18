@@ -22,23 +22,22 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
 	const coffeeStores = await fetchCoffeeStores();
-
+	const findCoffeeStoreById = coffeeStores.find(
+		store => store.id.toString() === params.id,
+	);
 	return {
 		props: {
-			coffeeStore: coffeeStores.find(
-				store => store.id.toString() === params.id,
-			),
+			coffeeStore: findCoffeeStoreById ? findCoffeeStoreById : {},
 		},
 	};
 };
 
-const CoffeeStore = ({ coffeeStore }) => {
+const CoffeeStore = props => {
 	const router = useRouter();
 	if (router.isFallback) {
 		return <div>Loading...</div>;
 	}
-
-	const { address, neighborhood, name, imgUrl } = coffeeStore;
+	const { address, neighborhood, name, imgUrl } = props.coffeeStore;
 
 	const handleUpvoteButton = () => {
 		console.log('handle upvote');

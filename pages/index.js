@@ -18,7 +18,7 @@ export const getStaticProps = async () => {
 };
 
 export default function Home(props) {
-	const [coffeeStores, setCoffeeStores] = useState({});
+	const [coffeeStores, setCoffeeStores] = useState([]);
 	const [coffeeStoreError, setCoffeeStoreError] = useState(null);
 	const {
 		latLong,
@@ -36,6 +36,7 @@ export default function Home(props) {
 					setLocationErrorMsg('');
 					const coffeeStores = await fetchCoffeeStores(latLong, 30);
 					setCoffeeStores(coffeeStores);
+					console.log(coffeeStores);
 					setIsFindingLocation(false);
 				} catch (error) {
 					setCoffeeStoreError(error.message);
@@ -61,6 +62,7 @@ export default function Home(props) {
 					handleOnClick={handleOnBannerBtnClick}
 				/>
 				{locationErrorMsg && <p>Something went wrong: {locationErrorMsg}</p>}
+				{coffeeStoreError && <p>Something went wrong: {coffeeStoreError}</p>}
 				<div className={styles.heroImage}>
 					<Image
 						src='/static/hero-image.png'
@@ -69,24 +71,22 @@ export default function Home(props) {
 						alt='hero-image'
 					/>
 				</div>
-				{coffeeStoreError.length ? (
-					<p>{error}</p>
-				) : (
-					coffeeStores.length && (
-						<div className={styles.sectionWrapper}>
-							<h2 className={styles.heading2}>Stores near me</h2>
-							<div className={styles.cardLayout}>
-								{coffeeStores.map(store => (
+				{coffeeStores.length >= 1 && (
+					<div className={styles.sectionWrapper}>
+						<h2 className={styles.heading2}>Stores near me</h2>
+						<div className={styles.cardLayout}>
+							{coffeeStores.map(store => {
+								return (
 									<Card
 										key={store.id}
-										store={store}
+										coffeeStore={store}
 										href={`/coffee-store/${store.id}`}
 										className={styles.card}
 									/>
-								))}
-							</div>
+								);
+							})}
 						</div>
-					)
+					</div>
 				)}
 				{props.coffeeStores.length && (
 					<div className={styles.sectionWrapper}>
@@ -95,7 +95,7 @@ export default function Home(props) {
 							{props.coffeeStores.map(store => (
 								<Card
 									key={store.id}
-									store={store}
+									coffeeStore={store}
 									href={`/coffee-store/${store.id}`}
 									className={styles.card}
 								/>
