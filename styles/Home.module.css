@@ -35,6 +35,10 @@
 	color: var(--text-white-100);
 }
 
+.sectionWrapper {
+	margin-top: 5rem;
+}
+
 @media (min-width: 640px) {
 	.container {
 		padding-left: 1rem /* 16px */;

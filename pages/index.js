@@ -1,14 +1,14 @@
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import useTrackLocation from '../hooks/use-track-location';
 import Banner from '../components/Banner/Banner.component';
-import coffeeStoresData from '../data/coffee-stores.json';
 import { fetchCoffeeStores } from '../lib/coffee-stores';
 import Card from '../components/Card/Card.component';
 import styles from '../styles/Home.module.css';
 
 export const getStaticProps = async () => {
 	const coffeeStores = await fetchCoffeeStores();
-	console.log(coffeeStores);
 
 	return {
 		props: {
@@ -17,9 +17,34 @@ export const getStaticProps = async () => {
 	};
 };
 
-export default function Home({ coffeeStores }) {
+export default function Home(props) {
+	const [coffeeStores, setCoffeeStores] = useState({});
+	const [coffeeStoreError, setCoffeeStoreError] = useState(null);
+	const {
+		latLong,
+		locationErrorMsg,
+		setLocationErrorMsg,
+		isFindingLocation,
+		setIsFindingLocation,
+	} = useTrackLocation();
+
 	const handleOnBannerBtnClick = () => {
-		console.log('Hi banner button');
+		const getCoffeeStores = async () => {
+			if (latLong) {
+				try {
+					setIsFindingLocation(true);
+					setLocationErrorMsg('');
+					const coffeeStores = await fetchCoffeeStores(latLong, 30);
+					setCoffeeStores(coffeeStores);
+					setIsFindingLocation(false);
+				} catch (error) {
+					setCoffeeStoreError(error.message);
+					setIsFindingLocation(false);
+				}
+			}
+		};
+
+		getCoffeeStores();
 	};
 
 	return (
@@ -32,9 +57,10 @@ export default function Home({ coffeeStores }) {
 
 			<main className={styles.main}>
 				<Banner
-					buttonText='View stores nearby'
+					buttonText={isFindingLocation ? 'Locating...' : 'View stores nearby'}
 					handleOnClick={handleOnBannerBtnClick}
 				/>
+				{locationErrorMsg && <p>Something went wrong: {locationErrorMsg}</p>}
 				<div className={styles.heroImage}>
 					<Image
 						src='/static/hero-image.png'
@@ -43,11 +69,30 @@ export default function Home({ coffeeStores }) {
 						alt='hero-image'
 					/>
 				</div>
-				{coffeeStores?.length && (
-					<>
+				{coffeeStoreError.length ? (
+					<p>{error}</p>
+				) : (
+					coffeeStores.length && (
+						<div className={styles.sectionWrapper}>
+							<h2 className={styles.heading2}>Stores near me</h2>
+							<div className={styles.cardLayout}>
+								{coffeeStores.map(store => (
+									<Card
+										key={store.id}
+										store={store}
+										href={`/coffee-store/${store.id}`}
+										className={styles.card}
+									/>
+								))}
+							</div>
+						</div>
+					)
+				)}
+				{props.coffeeStores.length && (
+					<div className={styles.sectionWrapper}>
 						<h2 className={styles.heading2}>Toronto stores</h2>
 						<div className={styles.cardLayout}>
-							{coffeeStores.map(store => (
+							{props.coffeeStores.map(store => (
 								<Card
 									key={store.id}
 									store={store}
@@ -56,7 +101,7 @@ export default function Home({ coffeeStores }) {
 								/>
 							))}
 						</div>
-					</>
+					</div>
 				)}
 			</main>
 		</div>
