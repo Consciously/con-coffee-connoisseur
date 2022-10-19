@@ -2,12 +2,14 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
+import useSWR from 'swr';
 import styles from './Coffee-store.module.css';
 import cls from 'classnames';
 import Image from 'next/image';
 import { fetchCoffeeStores } from '../../lib/coffee-stores';
 import { CoffeeStoreContext } from '../../store/coffeeStore-context';
 import { isEmpty } from '../../utils';
+import { fetcher } from '../../lib/fetcher';
 
 export const getStaticPaths = async () => {
 	const coffeeStores = await fetchCoffeeStores();
@@ -94,10 +96,24 @@ const CoffeeStore = initialProps => {
 
 	const [votingCount, setVotingCount] = useState(1);
 
+	const { data, error } = useSWR(`/api/getCoffeeStoreById?id=${id}`, fetcher);
+
+	useEffect(() => {
+		if (data && data.length) {
+			console.log('data from SWR', data);
+			setCoffeeStore(data[0]);
+			setVotingCount(data[0].voting);
+		}
+	}, [data]);
+
 	const handleUpvoteButton = () => {
 		let count = votingCount + 1;
 		setVotingCount(count);
 	};
+
+	if (error) {
+		return <div>Something went wrong retrieving coffee store page</div>;
+	}
 
 	return (
 		<div className={styles.layout}>
