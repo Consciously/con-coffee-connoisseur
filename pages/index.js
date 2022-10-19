@@ -23,7 +23,6 @@ export default function Home(props) {
 	const { dispatch, state } = useContext(CoffeeStoreContext);
 
 	const { coffeeStores, latLong } = state;
-	// const [coffeeStores, setCoffeeStores] = useState([]);
 	const [coffeeStoreError, setCoffeeStoreError] = useState(null);
 	const {
 		locationErrorMsg,
@@ -38,14 +37,18 @@ export default function Home(props) {
 				try {
 					setIsFindingLocation(true);
 					setLocationErrorMsg('');
-					const coffeeStores = await fetchCoffeeStores(latLong, 30);
-					// setCoffeeStores(coffeeStores);
+					const res = await fetch(
+						`/api/getCoffeeStoresByLocation?latLong=${latLong}&limit=30`,
+					);
+
+					const coffeeStores = await res.json();
 					dispatch({
 						type: ACTION_TYPES.SET_COFFEE_STORES,
 						payload: {
 							coffeeStores,
 						},
 					});
+					setCoffeeStoreError('');
 					setIsFindingLocation(false);
 				} catch (error) {
 					setCoffeeStoreError(error.message);
