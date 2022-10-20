@@ -61,7 +61,7 @@ const CoffeeStore = initialProps => {
 		} else {
 			handleCreateCoffeeStore(initialProps.coffeeStore);
 		}
-	}, [id, initialProps, initialProps.coffeeStore]);
+	}, [id, initialProps, initialProps.coffeeStore, coffeeStores]);
 	const { data, error } = useSWR(`/api/getCoffeeStoreById?id=${id}`, fetcher);
 	useEffect(() => {
 		if (data && data.length) {
