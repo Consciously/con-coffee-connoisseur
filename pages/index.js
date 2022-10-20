@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { ACTION_TYPES } from '../store/coffeeStore-types';
 import { CoffeeStoreContext } from '../store/coffeeStore-context';
 import Head from 'next/head';
